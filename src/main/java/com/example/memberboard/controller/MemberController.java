@@ -52,7 +52,12 @@ public class MemberController {
      }else{
          return"memberPages/memberLogin";
      }
+    }
 
+    @GetMapping("/member/logout")
+    public String logoug(HttpSession session){
+        session.invalidate();
+        return "index";
     }
 
 }
