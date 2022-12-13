@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>save</title>
+     <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+     <script th:src="@{/js/jquery.js}" ></script>
+</head>
+<body>
+<div class="container">
+  <form action="/member/save" method="post" name="saveForm">
+    <input type="text" name="memberEmail" id="memberEmail" placeholder="이메일" class="form-control">
+    <span id="email-dup-check"></span>
+    <input type="password" name="memberPassword" placeholder="비밀번호" class="form-control">
+    <input type="text" name="memberName" placeholder="이름" class="form-control">
+    <input type="text" name="memberMobile" placeholder="휴대폰번호" class="form-control">
+    <input type="file" name="memberFile" placeholder="프로필사진" class="form-control">
+    <input type="submit" value="회원가입" class="btn btn-primary">
+  </form>
+</div>
+</body>
+</html>
