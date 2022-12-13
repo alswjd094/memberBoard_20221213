@@ -6,6 +6,7 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
 </head>
 <body>
+<th:block th:replace="commonPages/header :: header"></th:block>
 <div class="container">
   <form action="/board/save" method="post">
     <input type="text" name="boardWriter" th:value="${session.loginEmail}" placeholder="작성자" class="form-control" readonly>

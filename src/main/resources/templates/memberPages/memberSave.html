@@ -6,6 +6,7 @@
      <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
         <script th:src="@{/js/axios.min.js}"></script></head>
 <body>
+<th:block th:replace="commonPages/header :: header"></th:block>
 <div class="container">
   <form action="/member/save" method="post" name="saveForm" enctype="multipart/form-data">
     <input type="text" name="memberEmail" id="memberEmail" onblur="emailDuplicateCheck()" placeholder="이메일" class="form-control">

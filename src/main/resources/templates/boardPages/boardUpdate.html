@@ -6,6 +6,7 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
 </head>
 <body>
+<th:block th:replace="commonPages/header :: header"></th:block>
 <div class="container">
   <form action="/board/update" method="post" name="updateForm">
     <input type="hidden" name="id" th:value="${board.id}">

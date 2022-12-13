@@ -6,6 +6,7 @@
      <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
 </head>
 <body>
+<th:block th:replace="commonPages/header :: header"></th:block>
 <div class="container">
     <form action="/member/login" method="post">
         <input type="text" name="memberEmail" placeholder="이메일" class="form-control">

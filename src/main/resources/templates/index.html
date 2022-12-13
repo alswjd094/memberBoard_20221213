@@ -6,6 +6,7 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
 </head>
 <body>
+<th:block th:replace="commonPages/header :: header"></th:block>
 <a href="/member/save" class="btn btn-primary">회원가입</a>
 <a href="/member/login" class="btn btn-success">로그인</a>
 <a href="/board/paging" class="btn btn-dark">글목록</a>
