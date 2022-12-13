@@ -29,8 +29,9 @@
       <td th:text="${member.memberMobile}"></td>
     </tr>
     <tr>
+    <tr th:if="${member.fileAttached_member == 1}">
       <th>profile</th>
-      <td th:text="${member.memberProfile}"></td>
+    <td><img th:src="@{|/upload/${member.memberProfile}}" alt=""></td>
     </tr>
     <tr>
       <th>createdDate</th>

@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,6 +27,11 @@ public class MemberEntity extends BaseEntity{
     private String memberMobile;
     @Column(length = 100)
     private String memberProfile;
+    @Column
+    private int fileAttached_member;
+
+    @OneToMany(mappedBy = "memberEntity",cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<MemberFileEntity> memberFileEntityList = new ArrayList<>();
 
     public static MemberEntity toSaveEntity(MemberDTO memberDTO){
         MemberEntity memberEntity = new MemberEntity();
@@ -32,7 +39,18 @@ public class MemberEntity extends BaseEntity{
         memberEntity.setMemberPassword(memberDTO.getMemberPassword());
         memberEntity.setMemberName(memberDTO.getMemberName());
         memberEntity.setMemberMobile(memberDTO.getMemberMobile());
-        memberEntity.setMemberProfile(memberDTO.getMemberProfile());
+        memberEntity.setMemberProfile(memberDTO.getStoredFileName_member());
+        memberEntity.setFileAttached_member(0);
+        return memberEntity;
+    }
+    public static MemberEntity toSaveFileEntity(MemberDTO memberDTO){
+        MemberEntity memberEntity = new MemberEntity();
+        memberEntity.setMemberEmail(memberDTO.getMemberEmail());
+        memberEntity.setMemberPassword(memberDTO.getMemberPassword());
+        memberEntity.setMemberName(memberDTO.getMemberName());
+        memberEntity.setMemberMobile(memberDTO.getMemberMobile());
+        memberEntity.setMemberProfile(memberDTO.getStoredFileName_member());
+        memberEntity.setFileAttached_member(1);
         return memberEntity;
     }
 }

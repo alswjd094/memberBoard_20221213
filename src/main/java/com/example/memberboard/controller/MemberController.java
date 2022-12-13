@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -23,7 +24,7 @@ public class MemberController {
     }
 
     @PostMapping("/member/save")
-    public String save(@ModelAttribute MemberDTO memberDTO){
+    public String save(@ModelAttribute MemberDTO memberDTO) throws IOException {
         memberService.save(memberDTO);
         return "memberPages/memberLogin";
     }
