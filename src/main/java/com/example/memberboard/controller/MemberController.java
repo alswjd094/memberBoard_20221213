@@ -7,10 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -72,6 +69,19 @@ public class MemberController {
       List<MemberDTO> memberDTOList = memberService.findAll();
       model.addAttribute("members",memberDTOList);
       return "memberPages/memberList";
+    }
+
+    @GetMapping("/member/{id}")
+    public String member(@PathVariable Long id, Model model){
+       MemberDTO memberDTO = memberService.findById(id);
+       model.addAttribute("member",memberDTO);
+       return "memberPages/memberDetail";
+    }
+
+    @GetMapping("/member/delete/{id}")
+    public String delete(@PathVariable Long id){
+        memberService.delete(id);
+        return "redirect:/member/members";
     }
 
 }

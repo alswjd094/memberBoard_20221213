@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>detail</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body>
+<div class="container">
+  <table class="table table-striped text-center">
+    <tr>
+      <th>id</th>
+      <td th:text="${member.id}"></td>
+    </tr>
+    <tr>
+      <th>email</th>
+      <td th:text="${member.memberEmail}"></td>
+    </tr>
+    <tr>
+      <th>password</th>
+      <td th:text="${member.memberPassword}"></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td th:text="${member.memberName}"></td>
+    </tr>
+    <tr>
+      <th>mobile</th>
+      <td th:text="${member.memberMobile}"></td>
+    </tr>
+    <tr>
+      <th>profile</th>
+      <td th:text="${member.memberProfile}"></td>
+    </tr>
+  </table>
+  <a th:href="@{|/member/delete/${member.id}|}" class="btn btn-danger">삭제</a>
+</div>
+</body>
+</html>

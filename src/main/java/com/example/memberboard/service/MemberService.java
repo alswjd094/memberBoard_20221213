@@ -53,4 +53,17 @@ public class MemberService {
       }
       return memberDTOList;
     }
+
+    public MemberDTO findById(Long id) {
+      Optional<MemberEntity> memberEntity = memberRepository.findById(id);
+      if(memberEntity.isPresent()){
+          return MemberDTO.toDTO(memberEntity.get());
+      }else{
+          return null;
+      }
+    }
+
+    public void delete(Long id) {
+        memberRepository.deleteById(id);
+    }
 }
