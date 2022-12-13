@@ -70,4 +70,10 @@ public class BoardController {
         return "boardPages/boardDetail";
     }
 
+    @GetMapping("/board/delete/{id}")
+    public String delete(@PathVariable Long id){
+        boardService.delete(id);
+        return"redirect:/board/paging";
+    }
+
 }
