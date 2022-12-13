@@ -32,6 +32,10 @@
       <th>profile</th>
       <td th:text="${member.memberProfile}"></td>
     </tr>
+    <tr>
+      <th>createdDate</th>
+      <td th:text="*{#temporals.format(member.memberCreatedDate,'yyyy-MM-dd HH:mm:ss')}"></td>
+    </tr>
   </table>
   <a th:href="@{|/member/delete/${member.id}|}" class="btn btn-danger">삭제</a>
 </div>
