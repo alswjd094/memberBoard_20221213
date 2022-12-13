@@ -32,4 +32,13 @@ public class BoardEntity extends BaseEntity{
         boardEntity.setBoardHits(0);
         return boardEntity;
     }
+    public static BoardEntity toUpdateEntity(BoardDTO boardDTO){
+        BoardEntity boardEntity = new BoardEntity();
+        boardEntity.setId(boardDTO.getId());
+        boardEntity.setBoardTitle(boardDTO.getBoardTitle());
+        boardEntity.setBoardWriter(boardDTO.getBoardWriter());
+        boardEntity.setBoardContents(boardDTO.getBoardContents());
+        boardEntity.setBoardHits(boardDTO.getBoardHits());
+        return boardEntity;
+    }
 }

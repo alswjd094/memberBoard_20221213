@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>update</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body>
+<div class="container">
+  <form action="/board/update" method="post" name="updateForm">
+    <input type="hidden" name="id" th:value="${board.id}">
+    <input type="text" name="boardWriter" th:value="${board.boardWriter}" class="form-control" readonly>
+    <input type="text" name="boardTitle" th:value="${board.boardTitle}" class="form-control">
+    <textarea name="boardContents" cols="30" rows="10" th:field="${board.boardContents}" class="form-control"></textarea>
+<!--    <input type="file" name="boardFile" th:value="${board}">-->
+    <input type="hidden" name="boardHits" th:value="${board.boardHits}">
+    <input type="submit" value="수정" onclick="updateFn()" class="btn btn-warning">
+  </form>
+</div>
+</body>
+<script th:inline="javascript">
+  const updateFn = () => {
+    updateForm.submit();
+  }
+</script>
+</html>

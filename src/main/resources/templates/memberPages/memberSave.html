@@ -17,7 +17,7 @@
   </form>
 </div>
 </body>
-<script>
+<script th:inline="javascript">
     const emailDuplicateCheck = () => {
         const email = document.getElementById("memberEmail").value;
         const checkResult = document.getElementById("email-dup-check");
