@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <title>save</title>
      <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
-     <script th:src="@{/js/jquery.js}" ></script>
-</head>
+        <script th:src="@{/js/axios.min.js}"></script></head>
 <body>
 <div class="container">
   <form action="/member/save" method="post" name="saveForm">
-    <input type="text" name="memberEmail" id="memberEmail" placeholder="이메일" class="form-control">
+    <input type="text" name="memberEmail" id="memberEmail" onblur="emailDuplicateCheck()" placeholder="이메일" class="form-control">
     <span id="email-dup-check"></span>
     <input type="password" name="memberPassword" placeholder="비밀번호" class="form-control">
     <input type="text" name="memberName" placeholder="이름" class="form-control">
@@ -19,4 +18,23 @@
   </form>
 </div>
 </body>
+<script>
+    const emailDuplicateCheck = () => {
+        const email = document.getElementById("memberEmail").value;
+        const checkResult = document.getElementById("email-dup-check");
+        axios({
+            method:"post",
+            url:"/member/dup-check",
+            params:{
+                inputEmail: email
+            }
+        }).then(res=>{
+            checkResult.innerHTML="사용할 수 있는 이메일입니다.";
+            checkResult.style.color="blue";
+        }).catch(err=>{
+            checkResult.innerHTML="이미 사용 중인 이메일입니다.";
+            checkResult.style.color="red";
+        })
+    }
+</script>
 </html>
