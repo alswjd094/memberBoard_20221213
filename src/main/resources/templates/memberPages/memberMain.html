@@ -8,12 +8,12 @@
 <body>
 <div th:if="${session.loginEmail}">
     <div th:if="${session.loginEmail.toString().equals('admin')}">
-        <a href="/member/">관리자모드</a>
+        <a href="/member/admin" class="btn btn-warning">관리자모드</a>
     </div>
-    <a href="/member/logout">로그아웃</a>
+    <a href="/member/logout" class="btn btn-danger">로그아웃</a>
 </div>
 <div th:unless="${session.loginEmail}">
-    <a href="/member/login">로그인</a>
+    <a href="/member/login" class="btn btn-primary">로그인</a>
 </div>
 </body>
 </html>

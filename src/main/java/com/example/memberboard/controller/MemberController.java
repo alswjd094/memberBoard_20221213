@@ -6,12 +6,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -58,6 +60,18 @@ public class MemberController {
     public String logoug(HttpSession session){
         session.invalidate();
         return "index";
+    }
+
+    @GetMapping("/member/admin")
+    public String adminForm(){
+        return "memberPages/admin";
+    }
+
+    @GetMapping("/member/members")
+    public String members(Model model){
+      List<MemberDTO> memberDTOList = memberService.findAll();
+      model.addAttribute("members",memberDTOList);
+      return "memberPages/memberList";
     }
 
 }
