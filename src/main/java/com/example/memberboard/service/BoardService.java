@@ -10,8 +10,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -35,5 +37,19 @@ public class BoardService {
                         board.getCreatedTime()));
         return boardDTOPage;
     }
+@Transactional
+    public void updateHits(Long id) {
+        boardRepository.updateHits(id);
+    }
 
+    public BoardDTO findById(Long id) {
+        Optional<BoardEntity> boardEntityOptional = boardRepository.findById(id);
+        if(boardEntityOptional.isPresent()){
+          BoardEntity boardEntity = boardEntityOptional.get();
+          BoardDTO boardDTO= BoardDTO.toSaveBoardDTO(boardEntity);
+          return boardDTO;
+        }else{
+            return null;
+        }
+    }
 }
