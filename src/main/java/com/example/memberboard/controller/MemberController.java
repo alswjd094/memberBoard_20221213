@@ -48,14 +48,14 @@ public class MemberController {
      MemberDTO loginResult = memberService.login(memberDTO);
      if(loginResult != null){
          session.setAttribute("loginEmail",memberDTO.getMemberEmail());
-         return "memberPages/memberMain";
+         return "redirect:/board/paging";
      }else{
          return"memberPages/memberLogin";
      }
     }
 
     @GetMapping("/member/logout")
-    public String logoug(HttpSession session){
+    public String logout(HttpSession session){
         session.invalidate();
         return "index";
     }

@@ -3,10 +3,16 @@ package com.example.memberboard.controller;
 import com.example.memberboard.dto.BoardDTO;
 import com.example.memberboard.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,7 +26,24 @@ public class BoardController {
     @PostMapping("/board/save")
     public String save(@ModelAttribute BoardDTO boardDTO){
         boardService.save(boardDTO);
-        return"boardPages/boardList";
+        return"redirect:/board/paging";
+    }
+    @GetMapping("/board/paging")
+    public String paging(@PageableDefault(page = 1)Pageable pageable, Model model){
+        Page<BoardDTO> boardDTOPage = boardService.paging(pageable);
+        model.addAttribute("boardList",boardDTOPage);
+
+        int blockLimit = 3;
+        //시작 페이지 값 계산
+        int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+        //끝 페이지 값 계산(3, 6, 9, 12---)
+        //endPage 값이 totalPage값보다 크다면 endPage값을 totalPage값으로 덮어쓴다.
+        int endPage = ((startPage + blockLimit - 1) < boardDTOPage.getTotalPages()) ? startPage + blockLimit - 1 : boardDTOPage.getTotalPages();
+
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+        return "boardPages/boardPaging";
     }
 
 }
