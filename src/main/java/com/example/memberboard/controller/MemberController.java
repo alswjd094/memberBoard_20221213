@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
@@ -35,6 +37,22 @@ public class MemberController {
       }else{
           return new ResponseEntity<>("이미 사용 중인 이메일입니다.",HttpStatus.CONFLICT);
       }
+    }
+
+    @GetMapping("/member/login")
+    public String loginForm(){
+        return"memberPages/memberLogin";
+    }
+    @PostMapping("/member/login")
+    public String login(@ModelAttribute MemberDTO memberDTO, HttpSession session){
+     MemberDTO loginResult = memberService.login(memberDTO);
+     if(loginResult != null){
+         session.setAttribute("loginEmail",memberDTO.getMemberEmail());
+         return "memberPages/memberMain";
+     }else{
+         return"memberPages/memberLogin";
+     }
+
     }
 
 }

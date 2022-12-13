@@ -21,7 +21,7 @@ public class MemberDTO {
     private String memberProfile;
     private LocalDateTime memberCreatedDate;
 
-    private static MemberDTO toDTO(MemberEntity memberEntity){
+    public static MemberDTO toDTO(MemberEntity memberEntity){
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setId(memberEntity.getId());
         memberDTO.setMemberEmail(memberEntity.getMemberEmail());
