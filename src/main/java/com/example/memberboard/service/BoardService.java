@@ -2,7 +2,9 @@ package com.example.memberboard.service;
 
 import com.example.memberboard.dto.BoardDTO;
 import com.example.memberboard.entity.BoardEntity;
+import com.example.memberboard.entity.MemberEntity;
 import com.example.memberboard.repository.BoardRepository;
+import com.example.memberboard.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,11 +21,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BoardService {
     private final BoardRepository boardRepository;
+    private final MemberRepository memberRepository;
     public Long save(BoardDTO boardDTO) {
-      BoardEntity boardEntity =  BoardEntity.toSaveBoardEntity(boardDTO);
+      MemberEntity memberEntity = memberRepository.findByMemberEmail(boardDTO.getBoardWriter()).get();
+      BoardEntity boardEntity =  BoardEntity.toSaveBoardEntity(boardDTO,memberEntity);
       return boardRepository.save(boardEntity).getId();
     }
-
+@Transactional
     public Page<BoardDTO> paging(Pageable pageable) {
         int page = pageable.getPageNumber()-1;
         final int pageLimit = 5;
@@ -61,4 +65,5 @@ public class BoardService {
     public void delete(Long id) {
         boardRepository.deleteById(id);
     }
+
 }

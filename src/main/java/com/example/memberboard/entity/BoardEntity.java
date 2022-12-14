@@ -24,12 +24,17 @@ public class BoardEntity extends BaseEntity{
     @Column
     private int boardHits;
 
-    public static BoardEntity toSaveBoardEntity(BoardDTO boardDTO){
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private MemberEntity memberEntity;
+
+    public static BoardEntity toSaveBoardEntity(BoardDTO boardDTO, MemberEntity memberEntity){
         BoardEntity boardEntity = new BoardEntity();
         boardEntity.setBoardTitle(boardDTO.getBoardTitle());
         boardEntity.setBoardWriter(boardDTO.getBoardWriter());
         boardEntity.setBoardContents(boardDTO.getBoardContents());
         boardEntity.setBoardHits(0);
+        boardEntity.setMemberEntity(memberEntity);
         return boardEntity;
     }
     public static BoardEntity toUpdateEntity(BoardDTO boardDTO){
