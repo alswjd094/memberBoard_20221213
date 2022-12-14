@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>detail</title>
      <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <!--  //시간설정-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 </head>
 <body>
 <th:block th:replace="commonPages/header :: header"></th:block>
@@ -25,10 +27,11 @@
       <th>내용</th>
       <td th:text="${board.boardContents}"></td>
     </tr>
-<!--    <tr th:if="${board.fileAttached_board == 1}">-->
-<!--      <th>파일</th>-->
-<!--      <td><img th:src="@{|/upload/${board.storedFileName_board}}" alt=""></td>-->
-<!--    </tr>-->
+    <tr th:if="${board.fileAttached_board == 1}">
+      <th>파일</th>
+        <td th:each="fileName: ${board.storedFileName_board}">
+            <img th:src="@{|/upload/${fileName}}" alt="" width="200" height="200"></td>
+    </tr>
     <tr>
       <th>작성시간</th>
       <td th:text="*{#temporals.format(board.boardCreatedDate,'yyyy-MM-dd HH:mm:ss')}"></td>
@@ -41,11 +44,15 @@
 <div>
     <button class="btn btn-primary" onclick="listReq()" style="float: left">목록</button>
     <div th:if="${session.loginEmail} == ${board.boardWriter}">
-    <button class="btn btn-danger" onclick="deleteReq()" style="float: right">삭제</button>
     <button class="btn btn-warning" onclick="updateReq()" style="float: right">수정</button>
     </div>
-    <div th:if="${session.loginEmail.toString().equals('admin')}">
-    <button class="btn btn-danger" onclick="deleteReq()" style="float: right">삭제</button>
+    <div th:block th:switch="${session.loginEmail}">
+        <span th:case="'admin'">
+          <button class="btn btn-danger" onclick="deleteReq()" style="float: right">삭제</button>
+        </span>
+        <span th:case="${board.boardWriter}">
+          <button class="btn btn-danger" onclick="deleteReq()" style="float: right">삭제</button>
+        </span>
     </div>
 </div>
 </div>

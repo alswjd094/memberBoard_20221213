@@ -1,12 +1,16 @@
 package com.example.memberboard.dto;
 
 import com.example.memberboard.entity.BoardEntity;
+import com.example.memberboard.entity.BoardFileEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,6 +25,10 @@ public class BoardDTO {
     private int boardHits;
     private LocalDateTime boardCreatedDate;
     private int fileAttached_board;
+
+    private List<MultipartFile> boardFile;
+    private List<String> originalFileName_board;
+    private List<String> storedFileName_board;
 
     public BoardDTO(Long id, String boardTitle, String boardWriter, int boardHits, LocalDateTime boardCreatedDate) {
         this.id = id;
@@ -37,6 +45,21 @@ public class BoardDTO {
         boardDTO.setBoardContents(boardEntity.getBoardContents());
         boardDTO.setBoardHits(boardEntity.getBoardHits());
         boardDTO.setBoardCreatedDate(boardEntity.getCreatedTime());
+        //파일 관련 내용 추가
+        if(boardEntity.getFileAttached_board()==1){
+            boardDTO.setFileAttached_board(boardEntity.getFileAttached_board());
+            List<String> originalFileNameList = new ArrayList<>();
+            List<String> storedFileNameList = new ArrayList<>();
+
+            for(BoardFileEntity boardFileEntity:boardEntity.getBoardFileEntityList()){
+                originalFileNameList.add(boardFileEntity.getOriginalFileName_board());
+                storedFileNameList.add(boardFileEntity.getStoredFileName_board());
+            }
+            boardDTO.setOriginalFileName_board(originalFileNameList);
+            boardDTO.setStoredFileName_board(storedFileNameList);
+        }else{
+            boardDTO.setFileAttached_board(boardEntity.getFileAttached_board());
+        }
         return boardDTO;
     }
 }
