@@ -24,6 +24,7 @@
               <select name="type" class="form-select">
                 <option value="boardTitle" selected>제목</option>
                 <option value="boardWriter">작성자</option>
+                <option value="all">제목+작성자</option>
               </select>
               <input type="search" name="q" class="form-control form-control-light text-bg-light"
                      placeholder="Search..."
@@ -35,6 +36,7 @@
           <div class="text-end">
             <div th:if ="${session.loginEmail} != null">
               <a href="/member/logout" class="btn btn-outline-dark me-2">Logout</a>
+              <a href="/member/myPage" class="btn btn-warning">MyPage</a>
               </div>
             <div th:unless="${session.loginEmail}">
               <a href="/member/login" class="btn btn-outline-dark me-2">Login</a>

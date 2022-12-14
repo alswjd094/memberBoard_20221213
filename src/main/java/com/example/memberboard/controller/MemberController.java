@@ -85,4 +85,23 @@ public class MemberController {
         return "redirect:/member/members";
     }
 
+    @GetMapping("/member/myPage")
+    public String myPage(){
+        return "memberPages/myPage";
+    }
+
+    @GetMapping("/member/update")
+    public String updateForm(Model model,HttpSession session){
+        String loginEmail = (String) session.getAttribute("loginEmail");
+        MemberDTO memberDTO = memberService.findByMemberEmail(loginEmail);
+        model.addAttribute("member",memberDTO);
+        return "memberPages/memberUpdate";
+    }
+
+    @PostMapping("/member/update")
+    public String update(@ModelAttribute MemberDTO memberDTO) throws IOException{
+        memberService.update(memberDTO);
+        return "memberPages/memberMain";
+    }
+
 }

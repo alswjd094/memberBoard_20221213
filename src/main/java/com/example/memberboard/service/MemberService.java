@@ -94,4 +94,25 @@ public class MemberService {
     public void delete(Long id) {
         memberRepository.deleteById(id);
     }
+@Transactional
+    public MemberDTO findByMemberEmail(String loginEmail) {
+    Optional<MemberEntity> optionalMember = memberRepository.findByMemberEmail(loginEmail);
+    if(optionalMember.isPresent()){
+        return MemberDTO.toDTO(optionalMember.get());
+    }else{
+        return null;
+    }
+    }
+@Transactional
+    public void update(MemberDTO memberDTO) throws IOException {
+//    if(memberDTO.getMemberFile().isEmpty()){
+//        System.out.println("파일 없음");
+        MemberEntity memberEntity = MemberEntity.toUpdateEntity(memberDTO);
+        memberRepository.save(memberEntity);
+//    }else {
+//        System.out.println("파일 있음");
+//        MemberEntity memberEntity = MemberEntity.toUpdateFileEntity(memberDTO);
+//        memberRepository.save(memberEntity);
+//    }
+    }
 }

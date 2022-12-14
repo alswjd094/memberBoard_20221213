@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>update</title>
+   <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body>
+<th:block th:replace="commonPages/header :: header"></th:block>
+<div>
+    <form action="/member/update" method="post" name="updateFormProfile">
+      <input type="text" name="id" th:value="${member.id}" class="form-control" readonly>
+      <input type="text" name="memberEmail" th:value="${member.memberEmail}"  class="form-control" readonly>
+      <input type="password" name="memberPassword"  id="memberPassword" class="form-control">
+      <input type="text" name="memberName" th:value="${member.memberName}" class="form-control">
+      <input type="text" name="memberMobile" th:value="${member.memberMobile}" class="form-control">
+<!--      <tr th:if="${member.fileAttached_member == 1}">-->
+<!--      <input type="file" name="memberProfile" th:value="${member.memberProfile}" class="form-control">-->
+      <input type="button" value="수정" onclick="updateFn()">
+    </form>
+</div>
+</body>
+<script th:inline="javascript">
+const updateFn = () => {
+    const passwordDB = [[${member.memberPassword}]];
+    const password = document.getElementById("memberPassword").value;
+    if(passwordDB == password){
+        updateFormProfile.submit();
+    }else{
+        alert("비밀번호가 틀렸습니다.");
+    }
+}
+
+</script>
+</html>
