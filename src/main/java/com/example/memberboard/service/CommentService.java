@@ -17,6 +17,7 @@ import java.util.List;
 public class CommentService {
     private final CommentRepository commentRepository;
     private final BoardRepository boardRepository;
+    @Transactional
     public Long save(CommentDTO commentDTO) {
         BoardEntity entity = boardRepository.findById(commentDTO.getBoardId()).get();
         CommentEntity commentEntity = CommentEntity.toCommentEntity(entity, commentDTO);

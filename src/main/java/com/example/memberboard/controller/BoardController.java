@@ -82,4 +82,17 @@ public class BoardController {
         boardService.delete(id);
         return"redirect:/board/paging";
     }
+
+    @GetMapping("/board/")
+    public String findAll(Model model){
+      List<BoardDTO> boardDTOList = boardService.findAll();
+      return "boardPages/boardList";
+    }
+    @GetMapping("/board/search")
+    public String search(@RequestParam("type") String type, @RequestParam("q") String q, Model model){
+       List<BoardDTO> boardDTOList = boardService.search(type,q);
+        System.out.println("boardDTOList = " + boardDTOList);
+        model.addAttribute("boardList",boardDTOList);
+        return "boardPages/boardList";
+    }
 }
