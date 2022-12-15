@@ -86,7 +86,11 @@ public class MemberController {
     }
 
     @GetMapping("/member/myPage")
-    public String myPage(){
+    public String myPage(Model model,HttpSession session){
+        //마이페이지에 프로필 사진 보이기
+        String loginEmail = (String) session.getAttribute("loginEmail");
+        MemberDTO memberDTO = memberService.findByMemberEmail(loginEmail);
+        model.addAttribute("member",memberDTO);
         return "memberPages/myPage";
     }
 
