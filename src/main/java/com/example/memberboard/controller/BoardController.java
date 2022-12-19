@@ -88,11 +88,30 @@ public class BoardController {
       List<BoardDTO> boardDTOList = boardService.findAll();
       return "boardPages/boardList";
     }
+//    @GetMapping("/board/search")
+//    public String search(@RequestParam("type") String type, @RequestParam("q") String q, Model model){
+//       List<BoardDTO> boardDTOList = boardService.search(type,q);
+//        System.out.println("boardDTOList = " + boardDTOList);
+//        model.addAttribute("boardList",boardDTOList);
+//        return "boardPages/boardList";
+//    }
+
     @GetMapping("/board/search")
-    public String search(@RequestParam("type") String type, @RequestParam("q") String q, Model model){
-       List<BoardDTO> boardDTOList = boardService.search(type,q);
+    public String search(@PageableDefault(page = 1)Pageable pageable, @RequestParam("type") String type, @RequestParam("q") String q, Model model){
+        Page<BoardDTO> boardDTOList = boardService.search(type,q,pageable);
         System.out.println("boardDTOList = " + boardDTOList);
+
+        int blockLimit = 3;
+        //시작 페이지 값 계산
+        int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+        //끝 페이지 값 계산(3, 6, 9, 12---)
+        //endPage 값이 totalPage값보다 크다면 endPage값을 totalPage값으로 덮어쓴다.
+        int endPage = ((startPage + blockLimit - 1) < boardDTOList.getTotalPages()) ? startPage + blockLimit - 1 : boardDTOList.getTotalPages();
         model.addAttribute("boardList",boardDTOList);
-        return "boardPages/boardList";
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("type",type);
+        model.addAttribute("q",q);
+        return "boardPages/boardPaging";
     }
 }

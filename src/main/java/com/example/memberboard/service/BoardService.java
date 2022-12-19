@@ -91,22 +91,32 @@ public class BoardService {
         boardRepository.deleteById(id);
     }
 @Transactional
-    public List<BoardDTO> search(String type, String q) {
-       List<BoardEntity> boardEntityList = null;
-        if(type.equals("boardWriter")){
-            boardEntityList = boardRepository.findByBoardWriterContainingOrderByIdDesc(q);
-        }else if(type.equals("boardTitle")){
-            boardEntityList = boardRepository.findByBoardTitleContainingOrderByIdDesc(q);
-        }else{
-            boardEntityList = boardRepository.findByBoardWriterContainingOrBoardTitleContainingOrderByIdDesc(q,q);
-        }
+    public Page<BoardDTO> search(String type, String q, Pageable pageable) {
+    int page = pageable.getPageNumber()-1;
+    final int pageLimit = 5;
+   Page<BoardEntity> boardEntities = null;
+//           boardRepository.searchBy(PageRequest.of(page, pageLimit,Sort.by(Sort.Direction.DESC,"id")));
+    if(type.equals("boardWriter")){
+        boardEntities = boardRepository.findByBoardWriterContainingOrderByIdDesc(q,PageRequest.of(page, pageLimit,Sort.by(Sort.Direction.DESC,"id")));
+    }else if(type.equals("boardTitle")){
+        boardEntities = boardRepository.findByBoardTitleContainingOrderByIdDesc(q,PageRequest.of(page, pageLimit,Sort.by(Sort.Direction.DESC,"id")));
+    }else{
+        boardEntities = boardRepository.findByBoardWriterContainingOrBoardTitleContainingOrderByIdDesc(q,q,PageRequest.of(page, pageLimit,Sort.by(Sort.Direction.DESC,"id")));
+    }
+    Page<BoardDTO> boardDTOPage = boardEntities.map(
+            board->new BoardDTO(
+                    board.getId(),
+                    board.getBoardTitle(),
+                    board.getBoardWriter(),
+                    board.getBoardHits(),
+                    board.getCreatedTime()));
 
-    List<BoardDTO> boardDTOList = new ArrayList<>();
-        for(BoardEntity boardEntity : boardEntityList){
-            BoardDTO boardDTO = BoardDTO.toSaveBoardDTO(boardEntity);
-            boardDTOList.add(boardDTO);
-        }
-        return boardDTOList;
+//        List<BoardDTO> boardDTOList = new ArrayList<>();
+//        for(BoardEntity boardEntity : boardEntities){
+//            BoardDTO boardDTO = BoardDTO.toSaveBoardDTO(boardEntity);
+//            boardDTOList.add(boardDTO);
+//        }
+        return boardDTOPage;
     }
 
     public List<BoardDTO> findAll() {

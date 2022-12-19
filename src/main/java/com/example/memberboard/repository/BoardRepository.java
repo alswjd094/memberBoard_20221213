@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface BoardRepository extends JpaRepository<BoardEntity,Long> {
@@ -19,5 +20,9 @@ public interface BoardRepository extends JpaRepository<BoardEntity,Long> {
     List<BoardEntity> findByBoardWriterContainingOrderByIdDesc(String q);
     List<BoardEntity> findByBoardTitleContainingOrderByIdDesc(String q);
     List<BoardEntity> findByBoardWriterContainingOrBoardTitleContainingOrderByIdDesc(String writer,String title);
+
+    Page<BoardEntity> findByBoardWriterContainingOrderByIdDesc(String q, Pageable pageable);
+    Page<BoardEntity> findByBoardTitleContainingOrderByIdDesc(String q, Pageable pageable);
+    Page<BoardEntity> findByBoardWriterContainingOrBoardTitleContainingOrderByIdDesc(String writer,String title,Pageable pageable);
 
 }
