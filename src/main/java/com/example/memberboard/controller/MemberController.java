@@ -1,5 +1,6 @@
 package com.example.memberboard.controller;
 
+import com.example.memberboard.dto.BoardDTO;
 import com.example.memberboard.dto.MemberDTO;
 import com.example.memberboard.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -101,11 +102,10 @@ public class MemberController {
         model.addAttribute("member",memberDTO);
         return "memberPages/memberUpdate";
     }
-
     @PostMapping("/member/update")
     public String update(@ModelAttribute MemberDTO memberDTO) throws IOException{
         memberService.update(memberDTO);
-        return "memberPages/memberMain";
+        return "redirect:/member/myPage";
     }
 
 }

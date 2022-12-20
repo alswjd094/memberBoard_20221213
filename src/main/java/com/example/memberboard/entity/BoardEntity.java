@@ -65,6 +65,7 @@ public class BoardEntity extends BaseEntity{
         boardEntity.setBoardWriter(boardDTO.getBoardWriter());
         boardEntity.setBoardContents(boardDTO.getBoardContents());
         boardEntity.setBoardHits(boardDTO.getBoardHits());
+        boardEntity.setFileAttached_board(1);
         boardEntity.setMemberEntity(memberEntity);
         return boardEntity;
     }

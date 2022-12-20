@@ -70,7 +70,7 @@ public class BoardController {
     }
 
     @PostMapping("/board/update")
-    public String update(@ModelAttribute BoardDTO boardDTO,Model model){
+    public String update (@ModelAttribute BoardDTO boardDTO,Model model) throws IOException{
         boardService.update(boardDTO);
        BoardDTO boardDTO1 = boardService.findById(boardDTO.getId());
         model.addAttribute("board",boardDTO1);

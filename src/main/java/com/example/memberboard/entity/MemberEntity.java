@@ -56,8 +56,7 @@ public class MemberEntity extends BaseEntity{
         memberEntity.setFileAttached_member(1);
         return memberEntity;
     }
-
-    public static MemberEntity toUpdateEntity(MemberDTO memberDTO){
+    public static MemberEntity toUpdateFileEntity(MemberDTO memberDTO){
         MemberEntity memberEntity = new MemberEntity();
         memberEntity.setId(memberDTO.getId());
         memberEntity.setMemberEmail(memberDTO.getMemberEmail());
@@ -65,7 +64,7 @@ public class MemberEntity extends BaseEntity{
         memberEntity.setMemberName(memberDTO.getMemberName());
         memberEntity.setMemberMobile(memberDTO.getMemberMobile());
         memberEntity.setMemberProfile(memberDTO.getStoredFileName_member());
-        memberEntity.setFileAttached_member(0);
+        memberEntity.setFileAttached_member(1);
         return memberEntity;
     }
 }

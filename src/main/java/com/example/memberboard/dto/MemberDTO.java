@@ -23,6 +23,7 @@ public class MemberDTO {
     private LocalDateTime memberCreatedDate;
 
     private MultipartFile memberFile;
+    private MultipartFile memberFileUpdate;
     private int fileAttached_member;
     private String originalFileName_member;
     private String storedFileName_member;

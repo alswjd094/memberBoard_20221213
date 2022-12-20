@@ -13,11 +13,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -80,12 +82,44 @@ public class BoardService {
             return null;
         }
     }
+@Transactional
+    public Long update(BoardDTO boardDTO) throws IOException {
+    MemberEntity memberEntity = memberRepository.findByMemberEmail(boardDTO.getBoardWriter()).get();
+    if (boardDTO.getBoardFileUpdate().get(0).isEmpty()) {
+        System.out.println("파일 없음");
+        BoardEntity boardEntity = BoardEntity.toSaveBoardEntity(boardDTO, memberEntity);
+        return boardRepository.save(boardEntity).getId();
+    } else {
+        System.out.println("파일 있음");
+        for (MultipartFile boardFileUpdate : boardDTO.getBoardFileUpdate()) {
+            String originalFileName_board = boardFileUpdate.getOriginalFilename();
+            String storedFileName_board = System.currentTimeMillis() + "-" + originalFileName_board;
+            String savePath = "C:\\springboot_img\\" + storedFileName_board;
 
-    public void update(BoardDTO boardDTO) {
-        MemberEntity memberEntity = memberRepository.findByMemberEmail(boardDTO.getBoardWriter()).get();
-        BoardEntity boardEntity = BoardEntity.toUpdateEntity(boardDTO,memberEntity);
-        boardRepository.save(boardEntity);
+            File deleteFile = new File(savePath);
+//            if (!CollectionUtils.isEmpty(boardDTO.getBoardFileUpdate())) {
+//               memberRepository.deleteAll();
+               Files.deleteIfExists(deleteFile.toPath());
+//                deleteFile.delete();
+                System.out.println("파일 삭제 완료");
+        }
+
+        BoardEntity boardEntity = BoardEntity.toUpdateEntity(boardDTO, memberEntity);
+        Long savedId = boardRepository.save(boardEntity).getId();
+        BoardEntity entity = boardRepository.findById(savedId).get();
+        for (MultipartFile boardFileUpdate : boardDTO.getBoardFileUpdate()) {
+            String originalFileName_board = boardFileUpdate.getOriginalFilename();
+            String storedFileName_board = System.currentTimeMillis() + "-" + originalFileName_board;
+            String savePath = "C:\\springboot_img\\" + storedFileName_board;
+            boardFileUpdate.transferTo(new File(savePath));
+            BoardFileEntity boardFileEntity = BoardFileEntity.toSaveBoardFileEntity(entity, originalFileName_board, storedFileName_board);
+            boardFileRepository.save(boardFileEntity);
+        }
+        return savedId;
+//        BoardEntity boardEntity = BoardEntity.toUpdateEntity(boardDTO,memberEntity);
+//        boardRepository.save(boardEntity);
     }
+}
 
     public void delete(Long id) {
         boardRepository.deleteById(id);

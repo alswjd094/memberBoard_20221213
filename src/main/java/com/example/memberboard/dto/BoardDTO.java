@@ -27,6 +27,7 @@ public class BoardDTO {
     private int fileAttached_board;
 
     private List<MultipartFile> boardFile;
+    private List<MultipartFile> boardFileUpdate;
     private List<String> originalFileName_board;
     private List<String> storedFileName_board;
 

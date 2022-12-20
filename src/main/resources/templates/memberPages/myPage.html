@@ -11,7 +11,7 @@
 <th:block th:replace="commonPages/header :: header"></th:block>
 <div class="box" id="profile-form">
     <div th:if="${member.memberProfile != null}">
-        <img th:src="@{|/upload/${member.memberProfile}}" alt="" class="profile">
+        <img th:src="@{|/upload/${member.memberProfile}}" alt="" width="200" height="200" class="profile">
     </div>
         <div th:unless="${member.memberProfile != null}">
         <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="black" class="bi bi-person-circle profile" viewBox="0 0 16 16">
